@@ -1,4 +1,46 @@
-# ruff-pre-commit
+# muff-pre-commit
+
+## About
+
+This is a fork of [ruff-pre-commit](https://github.com/astral-sh/ruff-pre-commit), adapted to work with [Muff](https://github.com/jsh9/muff) instead of Ruff. Muff is a fork of Ruff with additional features.
+
+## Using Muff with pre-commit
+
+To use this pre-commit hook, add the following to your `.pre-commit-config.yaml`:
+
+```yaml
+repos:
+- repo: https://github.com/jsh9/muff-pre-commit
+  # Muff version.
+  rev: v0.12.9
+  hooks:
+    # Run the linter.
+    - id: muff-check
+      args: [ --fix ]
+    # Run the formatter.
+    - id: muff-format
+```
+
+To enable lint fixes, add the `--fix` argument:
+
+```yaml
+repos:
+- repo: https://github.com/jsh9/muff-pre-commit
+  # Muff version.
+  rev: v0.12.9
+  hooks:
+    # Run the linter.
+    - id: muff-check
+      args: [ --fix ]
+    # Run the formatter.
+    - id: muff-format
+```
+
+---
+
+# Original ruff-pre-commit README:
+
+---
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![image](https://img.shields.io/pypi/v/ruff/0.12.9.svg)](https://pypi.python.org/pypi/ruff)
