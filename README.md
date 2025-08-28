@@ -12,7 +12,7 @@ To use this pre-commit hook, add the following to your `.pre-commit-config.yaml`
 repos:
 - repo: https://github.com/jsh9/muff-pre-commit
   # Muff version.
-  rev: 0.12.11
+  rev: 0.12.11.1
   hooks:
     # Run the linter.
     - id: muff-check
@@ -26,7 +26,7 @@ To enable lint fixes, add the `--fix` argument:
 repos:
 - repo: https://github.com/jsh9/muff-pre-commit
   # Muff version.
-  rev: 0.12.11
+  rev: 0.12.11.1
   hooks:
     # Run the linter.
     - id: muff-check
