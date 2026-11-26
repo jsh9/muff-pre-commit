@@ -33,9 +33,10 @@ def main():
         if subprocess.check_output(["git", "status", "-s"]).strip():
             subprocess.run(["git", "add", *paths], check=True)
             subprocess.run(["git", "commit", "-m", f"Mirror: {version}"], check=True)
-            subprocess.run(["git", "tag", f"v{version}"], check=True)
+            # Muff tags have no "v" prefix (for example, "0.17.6"), unlike Ruff's.
+            subprocess.run(["git", "tag", f"{version}"], check=True)
         else:
-            print(f"No change v{version}")
+            print(f"No change {version}")
 
 
 def get_all_versions() -> list[Version]:
@@ -65,14 +66,11 @@ def process_version(version: Version) -> typing.Sequence[str]:
     def replace_pyproject_toml(content: str) -> str:
         return re.sub(r'"muff==.*"', f'"muff=={version}"', content)
 
-    def replace_readme_md(content: str) -> str:
-        content = re.sub(r"rev: v\d+\.\d+\.\d+", f"rev: v{version}", content)
-        content = re.sub(r'rev = "v\d+\.\d+\.\d+"', f'rev = "v{version}"', content)
-        return re.sub(r"/muff/\d+\.\d+\.\d+\.svg", f"/muff/{version}.svg", content)
-
+    # README.md is not updated: its Muff examples use a `<LATEST_VERSIN_TAG>`
+    # placeholder, and the `rev: vX.Y.Z` lines below them belong to the copy
+    # of Ruff's README, which tracks Ruff's version via upstream merges.
     paths = {
         "pyproject.toml": replace_pyproject_toml,
-        "README.md": replace_readme_md,
     }
 
     for path, replacer in paths.items():
