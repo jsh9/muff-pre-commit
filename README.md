@@ -42,9 +42,9 @@ repos:
 ---
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![image](https://img.shields.io/pypi/v/ruff/0.15.20.svg)](https://pypi.python.org/pypi/ruff)
-[![image](https://img.shields.io/pypi/l/ruff/0.15.20.svg)](https://pypi.python.org/pypi/ruff)
-[![image](https://img.shields.io/pypi/pyversions/ruff/0.15.20.svg)](https://pypi.python.org/pypi/ruff)
+[![image](https://img.shields.io/pypi/v/ruff/0.17.6.svg)](https://pypi.python.org/pypi/ruff)
+[![image](https://img.shields.io/pypi/l/ruff/0.17.6.svg)](https://pypi.python.org/pypi/ruff)
+[![image](https://img.shields.io/pypi/pyversions/ruff/0.17.6.svg)](https://pypi.python.org/pypi/ruff)
 [![Actions status](https://github.com/astral-sh/ruff-pre-commit/workflows/main/badge.svg)](https://github.com/astral-sh/ruff-pre-commit/actions)
 
 A [pre-commit](https://pre-commit.com/) hook for [Ruff](https://github.com/astral-sh/ruff).
@@ -61,7 +61,7 @@ To run Ruff's [linter](https://docs.astral.sh/ruff/linter) and [formatter](https
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.20
+  rev: v0.17.6
   hooks:
     # Run the linter.
     - id: ruff-check
@@ -69,13 +69,15 @@ repos:
     - id: ruff-format
 ```
 
+By default, the format hook also formats [Python code blocks in Markdown files](https://docs.astral.sh/ruff/formatter/#markdown-code-formatting).
+
 To enable lint fixes, add the `--fix` argument to the lint hook:
 
 ```yaml
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.20
+  rev: v0.17.6
   hooks:
     # Run the linter.
     - id: ruff-check
@@ -91,7 +93,7 @@ When using inline YAML lists, quote arguments that contain commas:
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.20
+  rev: v0.17.6
   hooks:
     # Run the linter.
     - id: ruff-check
@@ -104,7 +106,7 @@ To avoid running on Jupyter Notebooks, remove `jupyter` from the list of allowed
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.20
+  rev: v0.17.6
   hooks:
     # Run the linter.
     - id: ruff-check
@@ -112,7 +114,7 @@ repos:
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
-      types_or: [ python, pyi ]
+      types_or: [ python, pyi, markdown ]
 ```
 
 To lint `pyproject.toml`, add `pyproject` to the list of allowed filetypes (requires `identify>=2.6.18`):
@@ -121,7 +123,7 @@ To lint `pyproject.toml`, add `pyproject` to the list of allowed filetypes (requ
 repos:
 - repo: https://github.com/astral-sh/ruff-pre-commit
   # Ruff version.
-  rev: v0.15.20
+  rev: v0.17.6
   hooks:
     # Run the linter.
     - id: ruff-check
@@ -129,7 +131,22 @@ repos:
       args: [ --fix ]
     # Run the formatter.
     - id: ruff-format
-      types_or: [ python, pyi, jupyter ]
+```
+
+To format Python code blocks in Quarto documents that use the `.qmd` extension,
+[configure Ruff](https://docs.astral.sh/ruff/settings/#extension) to map the `qmd` extension to
+the `markdown` file type, and add `quarto` to the list of allowed file types in your
+`.pre-commit-config.yaml` configuration (requires `identify>=2.6.20`):
+
+```yaml
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Ruff version.
+  rev: v0.17.6
+  hooks:
+    # Run the formatter.
+    - id: ruff-format
+      types_or: [ python, pyi, jupyter, markdown, quarto ]
 ```
 
 When running with `--fix`, Ruff's lint hook should be placed _before_ Ruff's formatter hook, and
@@ -151,13 +168,13 @@ equivalent to the `.pre-commit-config.yaml` configuration:
 ```toml
 [[repos]]
 repo = "https://github.com/astral-sh/ruff-pre-commit"
-rev = "v0.15.20" # Ruff version.
+rev = "v0.17.6" # Ruff version.
 hooks = [
   # Run the linter.
   { id = "ruff-check", args = ["--fix"], types_or = ["python", "pyi"] },
 
   # Run the formatter.
-  { id = "ruff-format", types_or = ["python", "pyi"] },
+  { id = "ruff-format", types_or = ["python", "pyi", "markdown"] },
 ]
 ```
 
